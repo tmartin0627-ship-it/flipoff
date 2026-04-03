@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kölsch-Man — Pac-Man meets Köln!</title>
+  <link rel="stylesheet" href="css/pacman.css">
+</head>
+<body>
+  <div id="game-wrapper">
+    <header id="game-header">
+      <h1>Kölsch-Man</h1>
+      <div id="score-bar">
+        <span>Kölsch: <strong id="score">0</strong></span>
+        <span>Leben: <span id="lives"></span></span>
+        <span>Level: <strong id="level">1</strong></span>
+      </div>
+    </header>
+    <canvas id="game-canvas"></canvas>
+    <div id="overlay" class="visible">
+      <div id="overlay-content">
+        <div id="dom-logo"></div>
+        <h2>Kölsch-Man</h2>
+        <p>Der Kölner Dom hat Durst!<br>Sammle alle Kölsch-Gläser ein und weiche den Geistern aus.</p>
+        <p class="controls-info">Steuerung: <strong>Pfeiltasten</strong> oder <strong>WASD</strong></p>
+        <button id="start-btn">Spiel starten!</button>
+      </div>
+    </div>
+    <div id="game-over-overlay" class="hidden">
+      <div id="game-over-content">
+        <h2 id="game-over-title">Game Over</h2>
+        <p id="game-over-text"></p>
+        <button id="restart-btn">Nochmal!</button>
+      </div>
+    </div>
+  </div>
+  <script src="js/pacman-game.js"></script>
+</body>
+</html>
