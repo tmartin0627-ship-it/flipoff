@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Kölsch-Man — Pac-Man meets Köln!</title>
   <link rel="stylesheet" href="css/pacman.css">
 </head>
@@ -17,12 +17,20 @@
       </div>
     </header>
     <canvas id="game-canvas"></canvas>
+    <!-- Mobile D-Pad -->
+    <div id="dpad" class="hidden">
+      <button class="dpad-btn dpad-up" data-dir="up" aria-label="Hoch">&#9650;</button>
+      <button class="dpad-btn dpad-left" data-dir="left" aria-label="Links">&#9664;</button>
+      <button class="dpad-btn dpad-center"></button>
+      <button class="dpad-btn dpad-right" data-dir="right" aria-label="Rechts">&#9654;</button>
+      <button class="dpad-btn dpad-down" data-dir="down" aria-label="Runter">&#9660;</button>
+    </div>
     <div id="overlay" class="visible">
       <div id="overlay-content">
         <div id="dom-logo"></div>
         <h2>Kölsch-Man</h2>
         <p>Der Kölner Dom hat Durst!<br>Sammle alle Kölsch-Gläser ein und weiche den Geistern aus.</p>
-        <p class="controls-info">Steuerung: <strong>Pfeiltasten</strong> oder <strong>WASD</strong></p>
+        <p class="controls-info">Steuerung: <strong>Pfeiltasten</strong>, <strong>WASD</strong> oder <strong>D-Pad</strong></p>
         <button id="start-btn">Spiel starten!</button>
       </div>
     </div>

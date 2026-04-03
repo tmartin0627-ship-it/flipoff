@@ -12,16 +12,25 @@ body {
   font-family: 'Press Start 2P', monospace;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   min-height: 100vh;
+  min-height: 100dvh;
   overflow: hidden;
+  touch-action: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  overscroll-behavior: none;
 }
 
 #game-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
+  padding: 8px;
+  width: 100%;
+  max-width: 600px;
 }
 
 #game-header {
@@ -57,7 +66,50 @@ body {
   border-radius: 8px;
   box-shadow: 0 0 30px rgba(26, 26, 94, 0.8), inset 0 0 30px rgba(0, 0, 0, 0.3);
   background: #000;
+  max-width: 100%;
+  height: auto;
+  touch-action: none;
 }
+
+/* ── D-Pad ────────────────────────────────── */
+#dpad {
+  display: grid;
+  grid-template-columns: 60px 60px 60px;
+  grid-template-rows: 60px 60px 60px;
+  gap: 4px;
+  margin-top: 8px;
+}
+
+.dpad-btn {
+  width: 60px;
+  height: 60px;
+  border: 2px solid #1a3a8a;
+  border-radius: 12px;
+  background: rgba(26, 58, 138, 0.35);
+  color: #ffd700;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.dpad-btn:active {
+  background: rgba(255, 215, 0, 0.25);
+  border-color: #ffd700;
+}
+
+.dpad-center {
+  visibility: hidden;
+}
+
+.dpad-up    { grid-column: 2; grid-row: 1; }
+.dpad-left  { grid-column: 1; grid-row: 2; }
+.dpad-center{ grid-column: 2; grid-row: 2; }
+.dpad-right { grid-column: 3; grid-row: 2; }
+.dpad-down  { grid-column: 2; grid-row: 3; }
 
 /* Overlays */
 #overlay, #game-over-overlay {
@@ -129,4 +181,49 @@ body {
 #game-over-title {
   color: #ff4444 !important;
   text-shadow: 0 0 15px #ff4444 !important;
+}
+
+/* ── Mobile responsive ───────────────────── */
+@media (max-width: 620px) {
+  #game-header h1 {
+    font-size: 18px;
+    margin-bottom: 6px;
+  }
+  #score-bar {
+    gap: 12px;
+    font-size: 9px;
+  }
+  #overlay-content, #game-over-content {
+    padding: 24px 16px;
+  }
+  #overlay-content h2, #game-over-content h2 {
+    font-size: 22px;
+  }
+  #overlay-content p, #game-over-content p {
+    font-size: 13px;
+  }
+  #start-btn, #restart-btn {
+    font-size: 13px;
+    padding: 12px 28px;
+  }
+}
+
+@media (max-height: 700px) and (orientation: portrait) {
+  #game-header h1 {
+    font-size: 16px;
+    margin-bottom: 4px;
+  }
+  #score-bar {
+    font-size: 8px;
+    gap: 10px;
+  }
+  #dpad {
+    grid-template-columns: 50px 50px 50px;
+    grid-template-rows: 50px 50px 50px;
+  }
+  .dpad-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 18px;
+  }
 }

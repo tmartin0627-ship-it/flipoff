@@ -56,6 +56,30 @@
   canvas.width = WIDTH;
   canvas.height = HEIGHT;
 
+  // ── Responsive scaling ─────────────────────────────────────
+  const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
+    || (navigator.maxTouchPoints > 1);
+  const dpad = document.getElementById("dpad");
+
+  function resizeCanvas() {
+    const header = document.getElementById("game-header");
+    const headerH = header ? header.offsetHeight + 8 : 50;
+    const dpadH = isMobile ? 200 : 0;
+    const pad = 16;
+    const availW = window.innerWidth - pad * 2;
+    const availH = window.innerHeight - headerH - dpadH - pad * 2;
+    const scale = Math.min(availW / WIDTH, availH / HEIGHT, 1);
+    canvas.style.width = Math.floor(WIDTH * scale) + "px";
+    canvas.style.height = Math.floor(HEIGHT * scale) + "px";
+  }
+
+  if (isMobile) {
+    dpad.classList.remove("hidden");
+  }
+  resizeCanvas();
+  window.addEventListener("resize", resizeCanvas);
+  window.addEventListener("orientationchange", () => setTimeout(resizeCanvas, 200));
+
   // ── Game State ─────────────────────────────────────────────
   let map, player, ghosts, score, lives, level, gameRunning, animFrame;
   let totalDots, dotsEaten, powerTimer, gameWon;
@@ -84,20 +108,41 @@
     }
   });
 
-  // ── Touch controls ────────────────────────────────────────
+  // ── Touch / Swipe controls ─────────────────────────────────
   let touchStartX = 0, touchStartY = 0;
-  canvas.addEventListener("touchstart", (e) => {
+  document.addEventListener("touchstart", (e) => {
+    // Don't block button taps
+    if (e.target.tagName === "BUTTON") return;
+    e.preventDefault();
     touchStartX = e.touches[0].clientX;
     touchStartY = e.touches[0].clientY;
-  });
+  }, { passive: false });
+
+  document.addEventListener("touchmove", (e) => {
+    if (e.target.tagName !== "BUTTON") e.preventDefault();
+  }, { passive: false });
+
   canvas.addEventListener("touchend", (e) => {
     const dx = e.changedTouches[0].clientX - touchStartX;
     const dy = e.changedTouches[0].clientY - touchStartY;
+    const minSwipe = 20;
+    if (Math.abs(dx) < minSwipe && Math.abs(dy) < minSwipe) return;
     if (Math.abs(dx) > Math.abs(dy)) {
       nextDir = dx > 0 ? DIR.RIGHT : DIR.LEFT;
     } else {
       nextDir = dy > 0 ? DIR.DOWN : DIR.UP;
     }
+  });
+
+  // ── D-Pad buttons ─────────────────────────────────────────
+  const dirMap = { up: DIR.UP, down: DIR.DOWN, left: DIR.LEFT, right: DIR.RIGHT };
+  document.querySelectorAll(".dpad-btn[data-dir]").forEach(btn => {
+    const handlePress = (e) => {
+      e.preventDefault();
+      nextDir = dirMap[btn.dataset.dir];
+    };
+    btn.addEventListener("touchstart", handlePress, { passive: false });
+    btn.addEventListener("mousedown", handlePress);
   });
 
   // ── Map helpers ────────────────────────────────────────────
